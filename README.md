@@ -5,7 +5,8 @@ Um sistema de gerenciamento de estoque feito em python com GUI(Tkinter), com vin
 
 
 ## Funcionamento(BETA)
-https://youtu.be/h0WdUnqWVqE
+![Loading](https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif)
+
 
 
 ## Funcionalidades
