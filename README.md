@@ -4,7 +4,8 @@
 Um sistema de gerenciamento de estoque feito em python com GUI(Tkinter), com vinculo a um banco de dados.
 
 ## Funcionamento (BETA)
-![Loading](./2025-08-25_22-18-52.gif)
+[Assista ao vídeo](https://youtu.be/h0WdUnqWVqE)
+
 
 
 
