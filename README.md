@@ -5,7 +5,7 @@ Um sistema de gerenciamento de estoque feito em python com GUI(Tkinter), com vin
 
 
 ## Funcionamento(BETA)
-![Loading](2025-08-25 22-18-52.gif)
+![Loading](./2025-08-25 22-18-52.gif)
 
 
 
