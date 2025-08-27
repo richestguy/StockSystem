@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+import check_login
 class LoginGUI:
     """
     Classe que representa a interface gráfica de um formulário de login.
@@ -45,7 +46,7 @@ class LoginGUI:
         self.passwd_entry = ttk.Entry(self.root, width=30, show="x")
         self.passwd_entry.grid(row=1, column=1, padx=10, pady=10)
 
-        self.login_button = ttk.Button(self.root, text="Login", command=self.check_login, style="TButton")
+        self.login_button = ttk.Button(self.root, text="Login", command=lambda: self.check_login(), style="TButton")
         self.login_button.grid(row=2, column=0, columnspan=2, pady=10)
 
     def check_login(self):
@@ -55,14 +56,23 @@ class LoginGUI:
         
         username = self.login_entry.get().strip()
         password = self.passwd_entry.get().strip()
-        if username == "admin" and password == "admin" or username == 'USER' and password == "Senha":
-            self.status = 200
-            self.root.destroy()
+        if username and password:
+            self.status = check_login.check_login(username, password)
+            if self.status == 200:
+                self.root.destroy()
+            elif self.status == 401:
+                if hasattr(self, 'info_label'):
+                    self.info_label.destroy()
+                self.info_label = ttk.Label(self.root, text="Invalid credentials. Please try again.", foreground="red", background="white")
+                self.info_label.grid(row=3, column=0, columnspan=2)
+            else:
+                if hasattr(self, 'info_label'):
+                    self.info_label.destroy()
+                self.info_label = ttk.Label(self.root, text="An error occurred. Please try again later.", foreground="red", background="white")
+                self.info_label.grid(row=3, column=0, columnspan=2)
         else:
-            self.status = 401
-            self.status_label = ttk.Label(self.root, text="Invalid credentials", foreground="red")
-            self.status_label.grid(row=3, column=0, columnspan=2)
-
+            self.status = 400
+            self.root.destroy()
     def run(self):
         """
         Inicia o loop principal da interface gráfica.
