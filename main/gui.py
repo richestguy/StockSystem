@@ -4,8 +4,8 @@ from PIL import Image, ImageTk
 import user_management, stock_management
 import sys
 sys.path.append("./db")
-from nomedb import get_produtos
-import get_user 
+from nomedb import get_produtos #type: ignore
+import get_user #type: ignore
 
 
 class Gui:

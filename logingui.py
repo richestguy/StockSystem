@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import ttk
 import sys
 sys.path.append("./db")
-import check_login 
+import check_login  #type: ignore
 class LoginGUI:
     """
     Classe que representa a interface gráfica de um formulário de login.

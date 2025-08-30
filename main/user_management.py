@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import ttk
 import sys
 sys.path.append("./db")
-import get_user, add_userdb, remove_userdb
+import get_user, add_userdb, remove_userdb #type: ignore
 
 
 def add_user(app):

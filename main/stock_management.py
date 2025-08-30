@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import ttk 
 import sys
 sys.path.append("./db")
-import removedb, nomedb, insertdb
+import removedb, nomedb, insertdb#type: ignore
 
 def add_item(app):
         if hasattr(app, 'info_label'):

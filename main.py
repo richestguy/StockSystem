@@ -1,7 +1,7 @@
 from logingui import LoginGUI
 import sys
 sys.path.append("./main")
-from gui import Gui
+from gui import Gui #type: ignore
 
 
 
