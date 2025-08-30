@@ -1,5 +1,5 @@
 import db
-import nomedb
+import nomedb 
 
 def remove_item(item):
     conn, cursor = db.get_connection()

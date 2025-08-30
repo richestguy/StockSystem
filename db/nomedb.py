@@ -1,5 +1,5 @@
 # nomedb.py
-import db
+import db 
 
 def get_produtos():
     conn, cursor = db.get_connection()

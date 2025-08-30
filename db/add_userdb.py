@@ -1,4 +1,4 @@
-import db, get_user
+import db,get_user
 
 def add_user(username, senha):
     conn, cursor = db.get_connection()

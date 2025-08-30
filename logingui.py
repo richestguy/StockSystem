@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter import ttk
-import check_login
+import sys
+sys.path.append("./db")
+import check_login 
 class LoginGUI:
     """
     Classe que representa a interface gráfica de um formulário de login.

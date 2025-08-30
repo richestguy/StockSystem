@@ -1,8 +1,11 @@
 from tkinter import *
 from tkinter import ttk
 from PIL import Image, ImageTk
+import user_management, stock_management
+import sys
+sys.path.append("./db")
 from nomedb import get_produtos
-import insertdb, removedb, get_user, add_userdb, remove_userdb
+import get_user 
 
 
 class Gui:
@@ -56,67 +59,7 @@ class Gui:
             self.stock_label = ttk.Label(self.stock_frame_bottom, text="Item nao encontrado.", background="white", font=("Arial", 12))
             self.stock_label.pack(side=TOP)
    # user system packs
-    def remove_user(self):
-        if hasattr(self, 'remove_info_label'):
-            self.remove_info_label.destroy()
-        self.usuario = self.remove_user_entry.get()
-        self.status = remove_userdb.remove_user(self.usuario)
-        if self.status == 200:
-            self.remove_info_label = ttk.Label(self.remove_user_root, text="Usuario removido do sistema")
-            for i in range(2):
-                self.user_management()
-        elif self.status == 409:
-            self.remove_info_label = ttk.Label(self.remove_user_root, text="Usuario inexistente")
-        else:
-            self.remove_info_label = ttk.Label(self.remove_user_root, text="Erro desconhecido, tente novamente")
-        self.remove_info_label.pack()
-
-
-    def remove_user_frame(self):
-        self.remove_user_root = Toplevel(self.root)
-        self.remove_user_root.title("Remove user")
-        self.remove_user_root.geometry("300x220")
-        self.remove_user_root.resizable(False,False)
-
-        self.remove_user_label = ttk.Label(self.remove_user_root, text="Usuario:")
-        self.remove_user_entry = ttk.Entry(self.remove_user_root)
-        self.remove_user_button = ttk.Button(self.remove_user_root, text="Remover usuario", command=lambda: self.remove_user())
-
-        self.remove_user_label.pack()
-        self.remove_user_entry.pack()
-        self.remove_user_button.pack()
-    def add_user(self):
-        if hasattr(self, 'info_add_label'):
-            self.info_add_label.destroy()
-        self.username = self.add_user_entry.get()
-        self.senha = self.add_password_entry.get()
-        self.status = add_userdb.add_user(self.username, self.senha)
-        if self.status == 200:
-             self.info_add_label = ttk.Label(self.add_user_root, text="Usuario adcionado com sucesso")
-             for i in range(2):
-                 self.user_management()
-        elif self.status == 409:
-            self.info_add_label = ttk.Label(self.add_user_root , text="Usuario ja existe no banco de dados.")
-        else:
-            self.info_add_label = ttk.Label(self.add_user_root , text="Erro ao adcionar usuario.")
-        self.info_add_label.pack()
-    def add_user_frame(self):
-        self.add_user_root = Toplevel(self.root)
-        self.add_user_root.title("Add User")
-        self.add_user_root.geometry("300x230")
-        self.add_user_root.resizable(False,False)
-
-        self.add_user_label = ttk.Label(self.add_user_root, text="Username", font=("Arial", 12))
-        self.add_user_entry = ttk.Entry(self.add_user_root, font=("Arial", 12))
-        self.add_password_label = ttk.Label(self.add_user_root, text="Password", font=("Arial", 12))
-        self.add_password_entry = ttk.Entry(self.add_user_root, font=("Arial", 12), show="*")
-        self.add_user_button = ttk.Button(self.add_user_root, text="Add User", command=lambda: self.add_user())
-
-        self.add_user_label.pack(pady=10)
-        self.add_user_entry.pack(pady=10)
-        self.add_password_label.pack(pady=10)
-        self.add_password_entry.pack(pady=10)
-        self.add_user_button.pack(pady=10)
+    
     def user_management(self):
         if hasattr(self, 'stock_frame') and self.stock_frame.winfo_exists():
             self.stock_frame.destroy()
@@ -136,10 +79,10 @@ class Gui:
         # título
         self.user_label = ttk.Label(self.edit_frame, text="User Management Section", font=('Arial', 12), background="white")
         self.user_label.pack(side=LEFT, padx=10, pady=10)
-        self.add_user_button = ttk.Button(self.edit_frame, text="Add User", command=lambda: self.add_user_frame())
+        self.add_user_button = ttk.Button(self.edit_frame, text="Add User", command=lambda: user_management.add_user_frame(self))
         self.add_user_button.pack(side=RIGHT, padx=10, pady=10)
 
-        self.remove_user_button = ttk.Button(self.edit_frame, text="Remove User", command=lambda: self.remove_user_frame())
+        self.remove_user_button = ttk.Button(self.edit_frame, text="Remove User", command=lambda: user_management.remove_user_frame(self))
         self.remove_user_button.pack(side=RIGHT, padx=10, pady=10)
 
         # frame para conteúdo
@@ -164,62 +107,7 @@ class Gui:
         self.password_show_label.pack(anchor="e")
     
     # stock system packs
-    def add_item(self):
-        if hasattr(self, 'info_label'):
-            self.info_label.destroy()
 
-        self.status = insertdb.add_item(self.add_entry.get())   
-        if self.status == 200:
-             self.info_label = ttk.Label(self.add_root, text="Item adcionado com sucesso")
-             for i in range(2):
-                 self.stock_management()
-        elif self.status == 409:
-            self.info_label = ttk.Label(self.add_root, text="Item ja existe no banco de dados.")
-        else:
-            self.info_label = ttk.Label(self.add_root, text="Erro ao adcionar item.")
-        self.info_label.pack()
-    def add_frame(self):
-        self.add_root = Toplevel(self.root)
-        self.add_root.title("Adcionar item")
-        self.add_root.geometry("300x300")
-        self.add_root.resizable(False,False)
-        
-
-        self.add_label = ttk.Label(self.add_root, text="Nome do item", font=("Arial", 12))
-        self.add_entry = ttk.Entry(self.add_root)
-       
-        self.add_button = ttk.Button(self.add_root, text="Adcionar Item", command=lambda: self.add_item())
-       
-        self.add_label.pack( expand=True)
-        self.add_entry.pack(expand=True)
-        self.add_button.pack( expand=True)
-    def remove_item(self):
-        if hasattr(self, 'info_label'):
-            self.info_label.destroy()
-
-        self.status = removedb.remove_item(self.remove_entry.get())
-        if self.status == 200:
-            self.info_label = ttk.Label(self.remove_root, text="Item removido com sucesso")
-            for i in range(2):
-                self.stock_management()
-        elif self.status == 404:
-            self.info_label = ttk.Label(self.remove_root, text="Item não encontrado.")
-        else:
-            self.info_label = ttk.Label(self.remove_root, text="Erro ao remover item.")
-        self.info_label.pack()
-    def remove_frame(self):
-        self.remove_root = Toplevel(self.root)
-        self.remove_root.title("Remover Item")
-        self.remove_root.geometry("300x300")
-        self.remove_root.resizable(False,False)
-
-        self.remove_label = ttk.Label(self.remove_root, text="Nome do item", font=("Arial", 12))
-        self.remove_entry = ttk.Entry(self.remove_root)
-        self.remove_button = ttk.Button(self.remove_root, text="Remover Item", command=self.remove_item)
-
-        self.remove_label.pack(expand=True)
-        self.remove_entry.pack(expand=True)
-        self.remove_button.pack(expand=True)
     def stock_management(self):
         if hasattr(self, 'user_frame') and self.user_frame.winfo_exists():
             self.user_management()
@@ -238,8 +126,8 @@ class Gui:
         self.filter_bar_entry = ttk.Entry(self.stock_frame, background="black")
         
         self.filter_bar_button  = ttk.Button(self.stock_frame, text="Search", command=lambda: self.on_search())
-        self.removeitem = ttk.Button(self.stock_frame, text="Remover", command=lambda: self.remove_frame())
-        self.additem = ttk.Button(self.stock_frame, text="Adcionar", command=lambda: self.add_frame())
+        self.removeitem = ttk.Button(self.stock_frame, text="Remover", command=lambda: stock_management.remove_frame(self))
+        self.additem = ttk.Button(self.stock_frame, text="Adcionar", command=lambda: stock_management.add_frame(self))
         
         
        
